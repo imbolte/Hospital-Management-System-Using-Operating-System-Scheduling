@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hospital Scheduling (OS Concepts)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>Hospital Management System</h1>
+
+    <nav class="navbar">
+      <button class="nav-btn active" data-section="section-add">Add Patient</button>
+      <button class="nav-btn" data-section="section-waiting">Waiting Queue</button>
+      <button class="nav-btn" data-section="section-serving">Now Serving</button>
+      <button class="nav-btn" data-section="section-late">Late Queue</button>
+    </nav>
+
+    <div id="section-add" class="content-section">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <h3 style="margin: 0;">Add Patient</h3>
+          <button id="btnReset" class="reset-btn">Reset Session</button>
+        </div>
+
+        <label>Patient Name</label>
+        <input id="name" placeholder="e.g., Rahim" />
+
+        <label>Severity (1–5)</label>
+        <input id="severity" type="number" min="1" max="5" value="3" />
+
+        <label>Estimated Treatment Time (minutes)</label>
+        <input id="burst" type="number" min="1" value="10" />
+
+        <label>Arrival Time</label>
+        <input id="arrival" disabled />
+
+        <button id="btnAdd">Add Patient</button>
+      </div>
+    </div>
+
+    <div id="section-serving" class="content-section hidden">
+      <div class="card">
+        <h3>Now Serving</h3>
+        <div id="nowServing" class="muted">No patient yet.</div>
+
+        <div class="stats-grid mt20">
+          <div class="stat-item">
+            <span class="stat-label">Total Served</span>
+            <span class="stat-value" id="statTotal">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">In Waiting</span>
+            <span class="stat-value" id="statWaiting">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Avg Time</span>
+            <span class="stat-value" id="statAvg">0m</span>
+          </div>
+        </div>
+
+        <label>Scheduling Algorithm</label>
+        <select id="algo">
+          <option value="FCFS">FCFS (First Come First Serve)</option>
+          <option value="PRIORITY">Priority (Severity Based)</option>
+          <option value="SJF">SJF (Shortest Job First)</option>
+        </select>
+
+        <div class="flex mt10">
+          <button class="secondary" id="btnCallNext">Call Next</button>
+          <button class="warn" id="btnNoShow">No-Show</button>
+          <button class="danger-outline" id="btnCancelServing">Cancel Appointment</button>
+        </div>
+
+        <div class="flex mt8">
+          <button class="gray" id="btnComplete">Treatment Complete</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="section-waiting" class="content-section hidden">
+      <div class="card">
+        <h3>Waiting Queue</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Severity</th>
+              <th>Treat. Time</th>
+              <th>Time</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="waitingBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="section-late" class="content-section hidden">
+      <div class="card">
+        <h3>Late Queue (Page Replaced)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Severity</th>
+              <th>Time</th>
+              <th>Note</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="lateBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
